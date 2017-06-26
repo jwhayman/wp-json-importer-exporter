@@ -89,8 +89,11 @@ class ImportExportController
                     $post_data = (array)$post;
 
                     // Get custom fields
-                    $custom_fields              = get_post_custom($post->ID);
-                    $post_data['custom_fields'] = $custom_fields;
+                    $post_data['custom_fields'] = [];
+                    $custom_keys                = get_post_custom_keys($post->ID);
+                    foreach ($custom_keys as $key) {
+                        $post_data['custom_fields'][$key] = get_post_meta($post->ID, $key, true);
+                    }
 
                     // Get terms
                     $post_terms = [];
