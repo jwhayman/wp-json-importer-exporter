@@ -55,6 +55,86 @@ class ImportExportController
             return;
         }
 
+        $post_type = $data->post_type;
+        foreach ($data->posts as $post_data) {
+
+            // Get associated data
+            $custom_fields = $post_data->custom_fields;
+            $taxonomies    = $post_data->terms;
+            $attachments   = $post_data->attachments;
+
+            // Assign post args
+            $post_args = (array)$post_data;
+            unset($post_args['ID'],
+                $post_args['guid'],
+                $post_args['custom_fields'],
+                $post_args['terms'],
+                $post_args['attachments']
+            );
+
+            // Check if post already exists
+            $query = new \WP_Query([
+                'post_type' => $post_type,
+                'name'      => $post_args['post_name']
+            ]);
+
+            // Skip existing posts
+            if ($query->post_count !== 0) {
+                continue;
+            }
+
+            // Insert post
+            $post_id = wp_insert_post($post_args);
+
+            // Display error if an error occurred creating post
+            if (is_wp_error($post_id)) {
+                echo $post_id->get_error_message();
+                continue;
+            }
+
+            // Clear system custom fields
+            unset($custom_fields->_edit_lock);
+            unset($custom_fields->_edit_last);
+            unset($custom_fields->_thumbnail_id);
+
+            // Set custom fields
+            foreach ($custom_fields as $key => $value) {
+                add_post_meta($post_id, $key, $value);
+            }
+
+            // Add post taxonomies
+            foreach ($taxonomies as $taxonomy => $terms) {
+
+                // Skip empty terms
+                if ( ! $terms) {
+                    continue;
+                }
+
+                $post_terms = [];
+                foreach ($terms as $term) {
+                    $term_id = wp_insert_term(
+                        $term->name,
+                        $taxonomy,
+                        [
+                            'description' => $term->description,
+                            'slug'        => $term->slug
+                        ]);
+
+                    // Display error if an error occurred creating term
+                    if (is_wp_error($term_id)) {
+                        echo $term_id->get_error_message();
+                        continue;
+                    }
+
+                    $post_terms[] = $term_id['term_id'];
+                }
+
+                wp_set_post_terms($post_id, $post_terms, $taxonomy);
+            }
+
+            return;
+        }
+
         return;
     }
 
