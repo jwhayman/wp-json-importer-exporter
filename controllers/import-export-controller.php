@@ -51,6 +51,10 @@ class ImportExportController
         $file = file_get_contents($_FILES['jimex-import__file']['tmp_name']);
         $data = json_decode($file);
 
+        if ( ! $data) {
+            return;
+        }
+
         return;
     }
 
