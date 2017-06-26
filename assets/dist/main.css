@@ -1,0 +1,11 @@
+#jimex-dashboard {
+  margin-right: 1rem;
+}
+
+#jimex-dashboard .dashboard__forms {
+  display: flex;
+}
+
+#jimex-dashboard .form {
+  flex: 0 1 50%;
+}

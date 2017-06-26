@@ -1,0 +1,21 @@
+{
+  "name": "jwhayman/wp-json-importer-exporter",
+  "description": "Import and export WordPress posts, pages and custom posts with attachments and terms.",
+  "type": "wordpress-plugin",
+  "license": "MIT",
+  "homepage": "https://github.com/jwhayman/wp-json-importer-exporter/",
+  "authors": [
+    {
+      "name": "James Whayman",
+      "email": "github@jameswhayman.com",
+      "homepage": "http://www.jameswhayman.com"
+    }
+  ],
+  "keywords": [
+    "wordpress"
+  ],
+  "require": {
+    "php": ">5.4.0",
+    "guzzlehttp/guzzle": "^6.3"
+  }
+}

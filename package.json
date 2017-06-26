@@ -1,0 +1,27 @@
+{
+  "name": "wp-json-importer-exporter",
+  "version": "0.1.0",
+  "description": "Import and export WordPress posts, pages and custom posts with attachments and terms.",
+  "repository": "git@github.com:jwhayman/wp-json-importer-exporter.git",
+  "author": "James Whayman <github@jameswhayman.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --progress --config assets/build.config.js",
+    "start": "webpack --hide-modules --watch --config assets/build.config.js"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "autoprefixer": "^7.1.1",
+    "browser-sync": "^2.18.12",
+    "browsersync-webpack-plugin": "^0.5.3",
+    "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2",
+    "node-sass": "^4.5.3",
+    "path": "^0.12.7",
+    "postcss-loader": "^2.0.6",
+    "resolve-url-loader": "^2.1.0",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.0.0"
+  }
+}
