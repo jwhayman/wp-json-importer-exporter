@@ -58,6 +58,7 @@ class ImportExportController
     {
         global $post;
         $post_types = get_post_types();
+        $taxonomies = get_taxonomies();
         $directory  = ABSPATH . '/jimex/';
 
         if ( ! file_exists($directory)) {
@@ -87,8 +88,16 @@ class ImportExportController
                     $query->the_post();
                     $post_data = (array)$post;
 
+                    // Get custom fields
                     $custom_fields              = get_post_custom($post->ID);
                     $post_data['custom_fields'] = $custom_fields;
+
+                    // Get terms
+                    $post_terms = [];
+                    foreach ($taxonomies as $taxonomy) {
+                        $post_terms[$taxonomy] = get_the_terms($post->ID, $taxonomy);
+                    }
+                    $post_data['terms'] = $post_terms;
 
                     // Get attachments
                     $post_data['attachments'] = [];
